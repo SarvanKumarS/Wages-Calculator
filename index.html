@@ -22,7 +22,7 @@
             box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
         }
 
-        /* Watermark Logic (Embedded to ensure visibility) */
+        /* Watermark Logic (Updated for visibility) */
         body {
             position: relative;
             min-height: 100vh;
@@ -30,18 +30,21 @@
         body::before {
             content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;  /* Width relative to viewport */
+            height: 80vh; /* Height relative to viewport */
+            
             /* Ensure you have a file named 'logo.png' inside an 'assets' folder */
             background-image: url('assets/logo.png'); 
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 40%; /* Adjust size as needed */
-            opacity: 0.08; /* Transparency */
-            z-index: -1;
-            pointer-events: none;
+            background-size: contain; /* Ensures the logo fits within the screen */
+            
+            opacity: 0.1; /* Transparency - Adjust if too faint */
+            z-index: 99;  /* Places it ON TOP of the white card */
+            pointer-events: none; /* Allows you to click through the watermark */
         }
     </style>
 </head>
