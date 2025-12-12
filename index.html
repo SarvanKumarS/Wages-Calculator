@@ -4,8 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wages & ESIC Calculator</title>
-    <!-- Links to the external stylesheet (Handles the watermark) -->
+    <!-- Links to the external stylesheet -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Specific styles for the green inputs -->
+    <style>
+        .highlight-green label {
+            color: #27ae60; /* Green Text */
+            font-weight: 700;
+        }
+        .highlight-green input {
+            border: 2px solid #27ae60; /* Green Border */
+            background-color: #f0fcf6; /* Very light green background */
+        }
+        .highlight-green input:focus {
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+        }
+    </style>
 </head>
 <body>
 
@@ -21,29 +36,31 @@
                 <h3>Salary Components</h3>
                 <form id="wagesForm">
                     
-                    <!-- 1. Basic Pay -->
-                    <div class="form-group">
+                    <!-- 1. Basic Pay (Green) -->
+                    <div class="form-group highlight-green">
                         <label for="basicPay">Basic Pay</label>
                         <input type="number" id="basicPay" placeholder="0" min="0" step="0.01">
                     </div>
 
-                    <!-- 2. Dearness Allowance -->
-                    <div class="form-group">
+                    <!-- 2. Dearness Allowance (Green) -->
+                    <div class="form-group highlight-green">
                         <label for="da">Dearness Allowance (DA)</label>
                         <input type="number" id="da" placeholder="0" min="0" step="0.01">
                     </div>
 
-                    <!-- 3. Retention Allowance -->
-                    <div class="form-group">
+                    <!-- 3. Retention Allowance (Green) -->
+                    <div class="form-group highlight-green">
                         <label for="retention">Retention Allowance</label>
                         <input type="number" id="retention" placeholder="0" min="0" step="0.01">
                     </div>
 
-                    <!-- 4. NEW: Inclusive Allowance -->
-                    <div class="form-group">
+                    <!-- 4. Inclusive Allowance (Green) -->
+                    <div class="form-group highlight-green">
                         <label for="inclusive">Inclusive Allowance</label>
                         <input type="number" id="inclusive" placeholder="0" min="0" step="0.01">
                     </div>
+
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
 
                     <!-- 5. HRA -->
                     <div class="form-group">
