@@ -1,0 +1,221 @@
+/* Global Reset and Variables */
+:root {
+    --primary-color: #2c3e50;
+    --accent-color: #3498db;
+    --accent-hover: #2980b9;
+    --success-color: #27ae60;
+    --bg-color: #f4f7f6;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    /* Slight transparency */
+    --text-color: #333;
+    --border-radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+}
+
+/* --- WATERMARK SETUP --- */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Replace 'assets/logo.png' with your actual logo path */
+    background-image: url('assets/logo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 40%;
+    /* Adjusts the size of the watermark */
+    opacity: 0.08;
+    /* Low opacity ensures it looks like a watermark */
+    z-index: -1;
+    /* Places it behind all content */
+    pointer-events: none;
+}
+
+/* Main Container */
+.main-container {
+    width: 100%;
+    max-width: 1100px;
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+}
+
+/* Layout Grid */
+.calculator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+/* Input Section Styling */
+.input-section h3,
+.output-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-group label {
+    font-weight: 500;
+    font-size: 0.95rem;
+    flex: 1;
+}
+
+.form-group input {
+    flex: 0 0 140px;
+    /* Fixed width for inputs */
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Button Styling */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+button {
+    flex: 1;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-calc {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-calc:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-reset {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-reset:hover {
+    background-color: #7f8c8d;
+}
+
+/* Output Section Styling */
+.output-section {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: fit-content;
+}
+
+.result-box {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.result-value {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+/* Highlight specific results */
+.result-box.highlight {
+    background-color: #e8f6f3;
+    border-left: 5px solid var(--success-color);
+}
+
+.result-box.highlight .result-value {
+    color: var(--success-color);
+}
+
+.status-indicator {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        /* Stack columns on mobile */
+    }
+
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-group input {
+        width: 100%;
+        margin-top: 0.3rem;
+        flex: none;
+    }
+}
