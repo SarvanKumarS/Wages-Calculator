@@ -1,19 +1,22 @@
 /**
- * Wages & ESIC Calculator Logic
- * Handles reading inputs, performing specific ESIC math, and updating the UI.
+ * Wages & ESIC Calculator Logic (Updated)
+ * Handles reading 11 inputs, performing specific ESIC math, and updating the UI.
  */
 
 function calculateWages() {
     // --- 1. GET INPUT VALUES ---
-    // Helper function to get value safely (defaults to 0 if empty)
     const getVal = (id) => {
-        const value = document.getElementById(id).value;
+        const element = document.getElementById(id);
+        // Safety check if element exists (handling potential HTML mismatch)
+        if (!element) return 0;
+        const value = element.value;
         return value === "" ? 0 : parseFloat(value);
     };
 
     const basicPay = getVal("basicPay");
     const da = getVal("da");
     const retention = getVal("retention");
+    const inclusive = getVal("inclusive"); // Added Inclusive Allowance
     const hra = getVal("hra");
     const travelling = getVal("travelling");
     const washing = getVal("washing");
@@ -24,12 +27,12 @@ function calculateWages() {
 
     // --- 2. CALCULATIONS ---
 
-    // Logic A: Calculate Wage Sum (Basic + DA + Retention)
-    // Used for ESIC eligibility check and contribution calculation
-    const wageSum = basicPay + da + retention;
+    // Logic A: Calculate Wage Sum (Basic + DA + Retention + Inclusive)
+    // Used for ESIC eligibility check and contribution calculation base
+    const wageSum = basicPay + da + retention + inclusive;
 
-    // Output 1: Total Gross Salary (Sum of all 10 inputs)
-    const totalGross = basicPay + da + retention + hra + travelling + washing + conveyance + overtime + other1 + other2;
+    // Output 1: Total Gross Salary (Sum of all 11 inputs)
+    const totalGross = basicPay + da + retention + inclusive + hra + travelling + washing + conveyance + overtime + other1 + other2;
 
     // Output 2: Coverable under ESIC?
     // Condition: IF (Total Gross <= 42000) AND (Wage Sum <= 21000) THEN 'YES' ELSE 'NO'
@@ -39,39 +42,30 @@ function calculateWages() {
     }
 
     // Output 3: Wages for ESI Contribution
-    // Formula: MAX(Wage Sum, Total Gross / 2)
-    // Note: If not coverable, this technically shouldn't apply, but we calculate based on your formula request.
-    const wagesForESI = Math.max(wageSum, totalGross / 2);
+    // Formula Step 1: MAX(Wage Sum, Total Gross / 2)
+    const calculatedWageBasis = Math.max(wageSum, totalGross / 2);
+    
+    // Formula Step 2: IF (result <= 20000) THEN print value ELSE print 0
+    let finalWagesForESI = 0;
+    if (calculatedWageBasis <= 21000) {
+        finalWagesForESI = calculatedWageBasis;
+    } else {
+        finalWagesForESI = 0;
+    }
 
     // Output 4: Employee Contribution @ 0.75%
     // Formula: ROUNDUP(Wages for ESI Contribution * 0.75%, 0)
-    // We use Math.ceil for ROUNDUP to 0 decimal places
-    let employeeContribution = 0;
-
-    // Only calculate contribution if they are coverable (Standard Logic), 
-    // OR if you want it calculated regardless, remove the 'if' check below.
-    // Based on your prompt, you asked for the raw formula, but usually contribution is 0 if not coverable.
-    // I will apply the calculation strictly as requested, but logically it implies 0 if NO.
-    // However, adhering strictly to your formula list:
-    employeeContribution = Math.ceil(wagesForESI * 0.0075);
-
-    // If "isCoverable" is NO, usually contribution is 0. 
-    // Let's force it to 0 if not coverable to make practical sense, 
-    // unless you want the theoretical calculation. 
-    // *Adjusting logic for practical use case*:
-    if (isCoverable === "NO") {
-        employeeContribution = 0;
-    }
+    let employeeContribution = Math.ceil(finalWagesForESI * 0.0075); 
 
     // --- 3. UPDATE UI ---
-
-    // Update text content
+    
+    // Update text content with currency formatting
     document.getElementById("outTotalGross").textContent = formatCurrency(totalGross);
-
+    
     const coverableEl = document.getElementById("outCoverable");
     coverableEl.textContent = isCoverable;
-
-    // Styling for YES/NO
+    
+    // Dynamic styling for YES/NO
     if (isCoverable === "YES") {
         coverableEl.style.color = "#27ae60"; // Green
         coverableEl.style.backgroundColor = "#e8f6f3";
@@ -80,11 +74,11 @@ function calculateWages() {
         coverableEl.style.backgroundColor = "#fdedec";
     }
 
-    document.getElementById("outWagesESI").textContent = formatCurrency(wagesForESI);
+    document.getElementById("outWagesESI").textContent = formatCurrency(finalWagesForESI);
     document.getElementById("outContribution").textContent = formatCurrency(employeeContribution);
 }
 
-// Helper to format numbers as currency (optional, makes it look nicer)
+// Helper to format numbers as currency (Indian Standard)
 function formatCurrency(num) {
     return num.toLocaleString('en-IN', {
         maximumFractionDigits: 2,
@@ -93,8 +87,7 @@ function formatCurrency(num) {
 }
 
 function resetForm() {
-    // The HTML <button type="reset"> handles clearing inputs automatically.
-    // We just need to reset the output displays.
+    // Reset output displays
     document.getElementById("outTotalGross").textContent = "0.00";
     document.getElementById("outCoverable").textContent = "-";
     document.getElementById("outCoverable").style.color = "inherit";
