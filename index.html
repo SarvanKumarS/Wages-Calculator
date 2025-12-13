@@ -44,15 +44,44 @@
             background-position: center; background-repeat: no-repeat; background-size: contain;
             opacity: 0.1; z-index: 99; pointer-events: none;
         }*/
+
+        /* Top Right Signature Styling */
+        .header-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .signature {
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: right;
+            font-weight: bold;
+            /* Changed to a professional Serif font stack for an 'Official' look */
+            font-family: 'Cambria', 'Cochin', 'Georgia', 'Times', 'Times New Roman', serif;
+            font-style: italic; 
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+        .sig-name { color: #800000; } /* Maroon */
+        .sig-title { color: #3498db; } /* Light Blue */
     </style>
 </head>
 <body>
 
     <div class="main-container">
-        <header>
-            <h1>Wages Calculator</h1>
-            <p>Enter salary details below to calculate ESIC eligibility.</p>
-        </header>
+        <!-- Header Container with Relative Positioning for Signature -->
+        <div class="header-container">
+            <header>
+                <h1>Wages Calculator</h1>
+                <p>Enter salary details below to calculate ESIC eligibility.</p>
+            </header>
+            
+            <!-- Signature Block -->
+            <div class="signature">
+                <div class="sig-name">- Sarvan Kumar S</div>
+                <div class="sig-title">ESIC, SRO Mysuru</div>
+            </div>
+        </div>
 
         <div class="calculator-grid">
             
@@ -129,7 +158,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- NEW: Bonus -->
+                        <!-- Bonus -->
                         <tr>
                             <td>
                                 <div class="input-row">
@@ -138,7 +167,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- Renamed Washing -->
+                        <!-- Washing -->
                         <tr>
                             <td>
                                 <div class="input-row">
@@ -147,7 +176,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- NEW: Employer EPF -->
+                        <!-- Employer EPF -->
                         <tr>
                             <td>
                                 <div class="input-row">
@@ -156,7 +185,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- NEW: Commission -->
+                        <!-- Commission -->
                         <tr>
                             <td>
                                 <div class="input-row">
@@ -165,7 +194,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- NEW: Value of House -->
+                        <!-- Value of House -->
                         <tr>
                             <td>
                                 <div class="input-row">
@@ -174,7 +203,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- NEW: Settlement -->
+                        <!-- Settlement -->
                         <tr>
                             <td>
                                 <div class="input-row">
