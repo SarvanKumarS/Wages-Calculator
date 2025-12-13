@@ -45,7 +45,7 @@ function calculateWages() {
     // Output 2: Coverable under ESIC?
     // Condition: IF (Total Gross <= 42000) AND (Wage Sum <= 21000) THEN 'YES' ELSE 'NO'
     let isCoverable = "NO";
-    if (totalGross <= 42000 && wageSum <= 21000) {
+    if (totalGross <= 42000 && wageSum <= 21000 && totalGross>=1) {
         isCoverable = "YES";
     }
 
@@ -53,10 +53,10 @@ function calculateWages() {
     // Formula Step 1: MAX(Wage Sum, Total Gross / 2)
     const calculatedWageBasis = Math.max(wageSum, totalGross / 2);
     
-    // Formula Step 2: IF (result <= 20000) THEN print value ELSE print 0
-    // Note: User specified limit is 20000 for this output.
+    // Formula Step 2: IF (result <= 21000) THEN print value ELSE print 0
+    // Note: User specified limit is 21000 for this output.
     let finalWagesForESI = 0;
-    if (calculatedWageBasis <= 20000) {
+    if (calculatedWageBasis <= 21000) {
         finalWagesForESI = calculatedWageBasis;
     } else {
         finalWagesForESI = 0;
