@@ -1,38 +1,46 @@
 /**
  * Wages & ESIC Calculator Logic (Updated)
- * Handles reading 11 inputs, performing specific ESIC math, and updating the UI.
+ * Handles reading the updated list of inputs (Inclusive + Exclusive components)
+ * and performing specific ESIC math.
  */
 
 function calculateWages() {
     // --- 1. GET INPUT VALUES ---
+    // Helper to get value safely
     const getVal = (id) => {
         const element = document.getElementById(id);
-        // Safety check if element exists (handling potential HTML mismatch)
         if (!element) return 0;
         const value = element.value;
         return value === "" ? 0 : parseFloat(value);
     };
 
+    // Inclusive Components
     const basicPay = getVal("basicPay");
     const da = getVal("da");
     const retention = getVal("retention");
-    const inclusive = getVal("inclusive"); // Added Inclusive Allowance
+    const inclusive = getVal("inclusive");
+
+    // Exclusive Components
     const hra = getVal("hra");
-    const travelling = getVal("travelling");
-    const washing = getVal("washing");
     const conveyance = getVal("conveyance");
     const overtime = getVal("overtime");
-    const other1 = getVal("other1");
-    const other2 = getVal("other2");
+    const bonus = getVal("bonus");             // New
+    const washing = getVal("washing");
+    const epf = getVal("epf");                 // New (Employer's EPF)
+    const commission = getVal("commission");   // New
+    const houseValue = getVal("houseValue");   // New
+    const settlement = getVal("settlement");   // New
 
     // --- 2. CALCULATIONS ---
 
-    // Logic A: Calculate Wage Sum (Basic + DA + Retention + Inclusive)
+    // Logic A: Calculate Wage Sum (Inclusive Components only)
     // Used for ESIC eligibility check and contribution calculation base
     const wageSum = basicPay + da + retention + inclusive;
 
-    // Output 1: Total Gross Salary (Sum of all 11 inputs)
-    const totalGross = basicPay + da + retention + inclusive + hra + travelling + washing + conveyance + overtime + other1 + other2;
+    // Output 1: Total Gross Salary (Sum of ALL 13 inputs)
+    const totalGross = basicPay + da + retention + inclusive + 
+                       hra + conveyance + overtime + bonus + 
+                       washing + epf + commission + houseValue + settlement;
 
     // Output 2: Coverable under ESIC?
     // Condition: IF (Total Gross <= 42000) AND (Wage Sum <= 21000) THEN 'YES' ELSE 'NO'
@@ -45,7 +53,8 @@ function calculateWages() {
     // Formula Step 1: MAX(Wage Sum, Total Gross / 2)
     const calculatedWageBasis = Math.max(wageSum, totalGross / 2);
     
-    // Formula Step 2: IF (result <= 20000) THEN print value ELSE print 0
+    // Formula Step 2: IF (result <= 21000) THEN print value ELSE print 0
+    // Note: Standard ESIC limit is 21000.
     let finalWagesForESI = 0;
     if (calculatedWageBasis <= 21000) {
         finalWagesForESI = calculatedWageBasis;
