@@ -29,7 +29,7 @@ body {
 }
 
 /* --- WATERMARK SETUP --- */
-body::before {
+/*body::before {
     content: "";
     position: fixed;
     top: 50%;
@@ -45,7 +45,7 @@ body::before {
     opacity: 0.1; /* Adjust transparency here */
     z-index: 99;  /* Sits on top of the calculator */
     pointer-events: none; /* Allows clicking through the image */
-}
+}*/
 
 /* Main Container */
 .main-container {
