@@ -4,47 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wages & ESIC Calculator</title>
-    <!-- Links to the external stylesheet -->
+    <!-- Link to external style.css -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- Specific styles for the green inputs and Watermark -->
+    <!-- Inline styles to guarantee the Table Layout and Colors immediately -->
     <style>
-        /* Green Input Highlights */
-        .highlight-green label {
-            color: #27ae60; /* Green Text */
-            font-weight: 700;
-        }
-        .highlight-green input {
-            border: 2px solid #27ae60; /* Green Border */
-            background-color: #f0fcf6; /* Very light green background */
-        }
-        .highlight-green input:focus {
-            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; }
+        td { border: 1px solid #999; padding: 12px; vertical-align: middle; }
+        
+        /* The First Column (Headers) */
+        .col-header { 
+            font-weight: bold; 
+            text-align: left; 
+            width: 30%; 
+            background-color: #fdfdfd;
         }
 
-        /* Watermark Logic (Updated for visibility) */
-        body {
-            position: relative;
-            min-height: 100vh;
+        /* Specific Colors */
+        .text-green { color: #27ae60; } /* Green for Inclusive */
+        .text-brown { color: #a04000; } /* Brown for Exclusive */
+
+        /* Input Row Styling */
+        .input-row { display: flex; justify-content: space-between; align-items: center; }
+        .input-row label { font-weight: 500; font-size: 0.9rem; margin-right: 10px; }
+        .input-row input { 
+            width: 120px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; 
         }
+
+        /* Highlight Green Inputs */
+        .input-green input { border: 2px solid #27ae60; background-color: #f0fcf6; }
+
+        /* Watermark Logic */
+        body { position: relative; min-height: 100vh; }
         body::before {
-            content: "";
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vw;  /* Width relative to viewport */
-            height: 80vh; /* Height relative to viewport */
-            
-            /* Ensure you have a file named 'logo.png' inside an 'assets' folder */
+            content: ""; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; height: 80vh;
             background-image: url('assets/logo.png'); 
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: contain; /* Ensures the logo fits within the screen */
-            
-            opacity: 0.1; /* Transparency - Adjust if too faint */
-            z-index: 99;  /* Places it ON TOP of the white card */
-            pointer-events: none; /* Allows you to click through the watermark */
+            background-position: center; background-repeat: no-repeat; background-size: contain;
+            opacity: 0.1; z-index: 99; pointer-events: none;
         }
     </style>
 </head>
@@ -57,79 +55,116 @@
         </header>
 
         <div class="calculator-grid">
-            <!-- LEFT COLUMN: INPUTS -->
+            
+            <!-- LEFT SIDE: INPUT TABLE -->
             <div class="input-section">
-                <h3>Salary Components</h3>
                 <form id="wagesForm">
                     
-                    <!-- 1. Basic Pay (Green) -->
-                    <div class="form-group highlight-green">
-                        <label for="basicPay">Basic Pay</label>
-                        <input type="number" id="basicPay" placeholder="0" min="0" step="0.01">
-                    </div>
+                    <!-- TABLE STRUCTURE -->
+                    <table>
+                        <!-- ROW 1: INCLUSIVE COMPONENTS (Green) -->
+                        <tr>
+                            <!-- First Column: Spans 4 rows -->
+                            <td rowspan="4" class="col-header text-green">
+                                INCLUSIVE COMPONENTS
+                            </td>
+                            <!-- Second Column: Inputs -->
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-green">BASIC</label>
+                                    <input type="number" id="basicPay" class="input-green" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-green">DA</label>
+                                    <input type="number" id="da" class="input-green" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-green">RETAINING ALLOWANCE</label>
+                                    <input type="number" id="retention" class="input-green" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-green">ALLOWANCES (OTHER THAN EXCLUSIVE)</label>
+                                    <input type="number" id="inclusive" class="input-green" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
 
-                    <!-- 2. Dearness Allowance (Green) -->
-                    <div class="form-group highlight-green">
-                        <label for="da">Dearness Allowance (DA)</label>
-                        <input type="number" id="da" placeholder="0" min="0" step="0.01">
-                    </div>
+                        <!-- ROW 2: EXCLUSIVE COMPONENTS (Brown) -->
+                        <tr>
+                            <!-- First Column: Spans 7 rows -->
+                            <td rowspan="7" class="col-header text-brown">
+                                EXCLUSIVE COMPONENTS
+                            </td>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-brown">HRA</label>
+                                    <input type="number" id="hra" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-brown">CONVEYANCE ALLOWANCE</label>
+                                    <input type="number" id="conveyance" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-brown">OVERTIME ALLOWANCE</label>
+                                    <input type="number" id="overtime" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-brown">DEFRAYAL SPL. EXPENSES (WASHING ETC)</label>
+                                    <input type="number" id="washing" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-brown">TRAVELLING ALLOWANCE</label>
+                                    <input type="number" id="travelling" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-brown">OTHER ALLOWANCE 1</label>
+                                    <input type="number" id="other1" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-row">
+                                    <label class="text-brown">OTHER ALLOWANCE 2</label>
+                                    <input type="number" id="other2" placeholder="0" min="0" step="0.01">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
 
-                    <!-- 3. Retention Allowance (Green) -->
-                    <div class="form-group highlight-green">
-                        <label for="retention">Retention Allowance</label>
-                        <input type="number" id="retention" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <!-- 4. Inclusive Allowance (Green) -->
-                    <div class="form-group highlight-green">
-                        <label for="inclusive">Inclusive Allowance</label>
-                        <input type="number" id="inclusive" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-
-                    <!-- 5. HRA -->
-                    <div class="form-group">
-                        <label for="hra">House Rent Allowance (HRA)</label>
-                        <input type="number" id="hra" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <!-- 6. Travelling Allowance -->
-                    <div class="form-group">
-                        <label for="travelling">Travelling Allowance</label>
-                        <input type="number" id="travelling" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <!-- 7. Washing Allowance -->
-                    <div class="form-group">
-                        <label for="washing">Washing Allowance</label>
-                        <input type="number" id="washing" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <!-- 8. Conveyance Allowance -->
-                    <div class="form-group">
-                        <label for="conveyance">Conveyance Allowance</label>
-                        <input type="number" id="conveyance" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <!-- 9. Overtime Allowance -->
-                    <div class="form-group">
-                        <label for="overtime">Overtime Allowance</label>
-                        <input type="number" id="overtime" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <!-- 10. Other Allowance 1 -->
-                    <div class="form-group">
-                        <label for="other1">Other Allowance 1</label>
-                        <input type="number" id="other1" placeholder="0" min="0" step="0.01">
-                    </div>
-
-                    <!-- 11. Other Allowance 2 -->
-                    <div class="form-group">
-                        <label for="other2">Other Allowance 2</label>
-                        <input type="number" id="other2" placeholder="0" min="0" step="0.01">
-                    </div>
-
+                    <!-- Action Buttons -->
                     <div class="button-group">
                         <button type="button" class="btn-calc" onclick="calculateWages()">Calculate Wages</button>
                         <button type="reset" class="btn-reset" onclick="resetForm()">Reset</button>
@@ -137,7 +172,7 @@
                 </form>
             </div>
 
-            <!-- RIGHT COLUMN: OUTPUTS -->
+            <!-- RIGHT SIDE: OUTPUTS -->
             <div class="output-section">
                 <h3>Calculation Results</h3>
                 
