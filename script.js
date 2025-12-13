@@ -14,13 +14,13 @@ function calculateWages() {
         return value === "" ? 0 : parseFloat(value);
     };
 
-    // Inclusive Components
+    // Inclusive Components (4 items)
     const basicPay = getVal("basicPay");
     const da = getVal("da");
     const retention = getVal("retention");
     const inclusive = getVal("inclusive");
 
-    // Exclusive Components
+    // Exclusive Components (9 items)
     const hra = getVal("hra");
     const conveyance = getVal("conveyance");
     const overtime = getVal("overtime");
@@ -53,10 +53,10 @@ function calculateWages() {
     // Formula Step 1: MAX(Wage Sum, Total Gross / 2)
     const calculatedWageBasis = Math.max(wageSum, totalGross / 2);
     
-    // Formula Step 2: IF (result <= 21000) THEN print value ELSE print 0
-    // Note: Standard ESIC limit is 21000.
+    // Formula Step 2: IF (result <= 20000) THEN print value ELSE print 0
+    // Note: User specified limit is 20000 for this output.
     let finalWagesForESI = 0;
-    if (calculatedWageBasis <= 21000) {
+    if (calculatedWageBasis <= 20000) {
         finalWagesForESI = calculatedWageBasis;
     } else {
         finalWagesForESI = 0;
